@@ -157,6 +157,19 @@ export const ServicesShowcaseView: React.FC<ServicesShowcaseViewProps> = ({
                 src={activeService.image}
                 alt={activeService.name}
                 referrerPolicy="no-referrer"
+                onError={(e) => {
+                  const fallbackMap: Record<string, string> = {
+                    web_dev:
+                      'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80',
+                    graphic_design:
+                      'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=1200&q=80',
+                    digital_marketing:
+                      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
+                  };
+                  (e.target as HTMLImageElement).src =
+                    fallbackMap[activeService.id] ||
+                    'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80';
+                }}
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-6">

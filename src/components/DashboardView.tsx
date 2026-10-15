@@ -72,9 +72,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       <div className="relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
         <div className="relative h-64 sm:h-72 w-full overflow-hidden">
           <img
-            src="/src/assets/images/primeplus_hero_workspace_1791899694493.jpg"
+            src="/images/primeplus_hero_workspace_1791899694493.jpg"
             alt="Prime Plus Team Workspace"
             referrerPolicy="no-referrer"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src =
+                'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80';
+            }}
             className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700"
           />
           {/* Measured contrast scrim */}
@@ -272,6 +276,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                           alt={u.name}
                           title={u.name}
                           referrerPolicy="no-referrer"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=f59e0b&color=090d16&bold=true`;
+                          }}
                           className="w-5 h-5 rounded-full ring-1 ring-slate-900 object-cover"
                         />
                       );
@@ -321,6 +328,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                           src={assignee.avatar}
                           alt={assignee.name}
                           referrerPolicy="no-referrer"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(assignee.name)}&background=f59e0b&color=090d16&bold=true`;
+                          }}
                           className="w-4 h-4 rounded-full object-cover"
                         />
                       )}
@@ -360,6 +370,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                         src={u.avatar}
                         alt={u.name}
                         referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=f59e0b&color=090d16&bold=true`;
+                        }}
                         className="w-7 h-7 rounded-full object-cover"
                       />
                       {u.isOnline && (

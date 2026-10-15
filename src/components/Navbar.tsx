@@ -206,6 +206,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                   src={currentUser.avatar}
                   alt={currentUser.name}
                   referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.name)}&background=f59e0b&color=090d16&bold=true`;
+                  }}
                   className="w-7 h-7 rounded-full object-cover ring-1 ring-amber-400/40 group-hover:ring-amber-400 transition-all"
                 />
                 <div className="hidden sm:block text-left">

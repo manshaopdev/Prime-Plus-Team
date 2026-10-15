@@ -314,6 +314,9 @@ export const TaskBoardView: React.FC<TaskBoardViewProps> = ({
                                   alt={assignee.name}
                                   title={`Assigned to ${assignee.name}`}
                                   referrerPolicy="no-referrer"
+                                  onError={(e) => {
+                                    (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(assignee.name)}&background=f59e0b&color=090d16&bold=true`;
+                                  }}
                                   className="w-5 h-5 rounded-full object-cover"
                                 />
                               )}
@@ -393,6 +396,9 @@ export const TaskBoardView: React.FC<TaskBoardViewProps> = ({
                                 src={assignee.avatar}
                                 alt={assignee.name}
                                 referrerPolicy="no-referrer"
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(assignee.name)}&background=f59e0b&color=090d16&bold=true`;
+                                }}
                                 className="w-5 h-5 rounded-full object-cover"
                               />
                             )}

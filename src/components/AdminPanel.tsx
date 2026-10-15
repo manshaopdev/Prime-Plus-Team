@@ -16,6 +16,7 @@ import {
   Building,
   Sparkles,
   ExternalLink,
+  Lock,
 } from 'lucide-react';
 
 interface AdminPanelProps {
@@ -27,6 +28,7 @@ interface AdminPanelProps {
   onCreateUser: (newUser: UserProfile) => void;
   onDeleteUser: (userId: string) => void;
   onSendAdminNotification: (userId: string, message: string) => void;
+  onLockAdmin?: () => void;
 }
 
 export const AdminPanel: React.FC<AdminPanelProps> = ({
@@ -38,6 +40,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   onCreateUser,
   onDeleteUser,
   onSendAdminNotification,
+  onLockAdmin,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [roleFilter, setRoleFilter] = useState<'all' | UserRole>('all');
@@ -127,7 +130,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
         role: formRole,
         title: formTitle.trim() || (formRole === 'client' ? 'Client Representative' : `${formRole.toUpperCase()} Specialist`),
         company: formCompany.trim() || (formRole === 'client' ? 'Client Org' : undefined),
-        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&h=200&q=80',
+        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(formName.trim())}&background=f59e0b&color=090d16&bold=true`,
         isOnline: true,
         activeStatusText: 'Active on Prime Plus Portal',
         isBanned: false,
@@ -185,13 +188,25 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
           </p>
         </div>
 
-        <button
-          onClick={handleOpenCreateModal}
-          className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-slate-950 bg-amber-400 hover:bg-amber-300 rounded-lg shadow-sm transition-colors cursor-pointer self-start sm:self-auto"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Provision New User ID</span>
-        </button>
+        <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+          {onLockAdmin && (
+            <button
+              onClick={onLockAdmin}
+              className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-rose-300 bg-rose-950/60 hover:bg-rose-900/80 border border-rose-800/80 rounded-lg shadow-sm transition-colors cursor-pointer"
+              title="Lock Admin Panel (Requires password Qwsa1122 to re-enter)"
+            >
+              <Lock className="w-3.5 h-3.5 text-rose-400" />
+              <span>Lock Admin</span>
+            </button>
+          )}
+          <button
+            onClick={handleOpenCreateModal}
+            className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-slate-950 bg-amber-400 hover:bg-amber-300 rounded-lg shadow-sm transition-colors cursor-pointer"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Provision New User ID</span>
+          </button>
+        </div>
       </div>
 
       {/* 2. Admin KPI Metrics */}
@@ -297,6 +312,9 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                         <img
                           src={user.avatar}
                           alt={user.name}
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=f59e0b&color=090d16&bold=true`;
+                          }}
                           className="w-8 h-8 rounded-full object-cover shrink-0 ring-1 ring-slate-800"
                         />
                         <div className="min-w-0">

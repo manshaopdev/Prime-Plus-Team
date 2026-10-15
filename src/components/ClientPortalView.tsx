@@ -189,6 +189,10 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({
                         src={del.previewImage}
                         alt={del.title}
                         referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src =
+                            'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80';
+                        }}
                         className="w-full h-full object-cover"
                       />
                     </div>
@@ -300,8 +304,12 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-slate-800">
           <div className="flex items-center gap-3">
             <img
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&h=200&q=80"
+              src="/images/avatar_mrhcr_1792085808587.jpg"
               alt="Mr.hcr"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src =
+                  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&h=200&q=80';
+              }}
               className="w-12 h-12 rounded-full object-cover ring-2 ring-amber-400/40"
             />
             <div>

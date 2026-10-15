@@ -163,6 +163,9 @@ export const CollaborationHubView: React.FC<CollaborationHubViewProps> = ({
                     src={msg.senderAvatar}
                     alt={msg.senderName}
                     referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(msg.senderName)}&background=f59e0b&color=090d16&bold=true`;
+                    }}
                     className="w-8 h-8 rounded-full object-cover shrink-0 mt-0.5"
                   />
                   <div className={`max-w-[78%] ${isMe ? 'items-end' : ''}`}>

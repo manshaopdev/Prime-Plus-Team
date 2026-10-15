@@ -30,6 +30,7 @@ import { NewTaskModal } from './components/NewTaskModal';
 import { NewProjectModal } from './components/NewProjectModal';
 import { CursorAndTouchEngine } from './components/CursorAndTouchEngine';
 import { WhatsAppQuickButton } from './components/WhatsAppQuickButton';
+import { Lock } from 'lucide-react';
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState<UserProfile>(INITIAL_USERS[0]);
@@ -191,7 +192,7 @@ export default function App() {
           id: `msg_lead_reply_${Date.now()}`,
           senderId: 'user_mrhcr',
           senderName: 'Mr.hcr (Owner)',
-          senderAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&h=200&q=80',
+          senderAvatar: '/images/avatar_mrhcr_1792085808587.jpg',
           senderRole: 'lead',
           text: `Acknowledged, ${currentUser.name}! Mr.hcr here. Our team has received your inquiry. Direct WhatsApp line: 03023608248.`,
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -295,13 +296,21 @@ export default function App() {
     setUsers((prev) => [...prev, newUser]);
   };
 
-  const handleOpenAdminPanel = () => {
-    if (isAdminUnlocked || (currentUser.id === 'user_mrhcr' && currentUser.role === 'lead')) {
-      setIsClientView(false);
-      setActiveTab('admin');
+  const handleSelectTab = (
+    tab: 'dashboard' | 'tasks' | 'projects' | 'collaboration' | 'services' | 'client_portal' | 'admin'
+  ) => {
+    if (tab === 'admin') {
+      handleOpenAdminPanel();
     } else {
-      setIsAdminPasswordModalOpen(true);
+      // Admin Panel se bahar nikalte hi access auto-lock ho jata hai
+      setIsAdminUnlocked(false);
+      setActiveTab(tab);
     }
+  };
+
+  const handleOpenAdminPanel = () => {
+    // Bina password lagaye kabhi bhi admin panel open na ho!
+    setIsAdminPasswordModalOpen(true);
   };
 
   const handleAdminPasswordSuccess = () => {
@@ -310,6 +319,11 @@ export default function App() {
     setCurrentUser(mrhcr);
     setIsClientView(false);
     setActiveTab('admin');
+  };
+
+  const handleLockAdmin = () => {
+    setIsAdminUnlocked(false);
+    setActiveTab('dashboard');
   };
 
   const handleOpenBookingModalWithSpecs = (specs: {
@@ -333,7 +347,7 @@ export default function App() {
       {/* 3. Strict Top Navigation Bar */}
       <Navbar
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        setActiveTab={handleSelectTab}
         currentUser={currentUser}
         users={users}
         onSwitchUser={setCurrentUser}
@@ -419,16 +433,39 @@ export default function App() {
         )}
 
         {activeTab === 'admin' && (
-          <AdminPanel
-            users={users}
-            currentUser={currentUser}
-            onUpdateUser={handleUpdateUser}
-            onBanUser={handleBanUser}
-            onUnbanUser={handleUnbanUser}
-            onCreateUser={handleCreateUser}
-            onDeleteUser={handleDeleteUser}
-            onSendAdminNotification={handleSendAdminNotification}
-          />
+          isAdminUnlocked ? (
+            <AdminPanel
+              users={users}
+              currentUser={currentUser}
+              onUpdateUser={handleUpdateUser}
+              onBanUser={handleBanUser}
+              onUnbanUser={handleUnbanUser}
+              onCreateUser={handleCreateUser}
+              onDeleteUser={handleDeleteUser}
+              onSendAdminNotification={handleSendAdminNotification}
+              onLockAdmin={handleLockAdmin}
+            />
+          ) : (
+            <div className="py-20 sm:py-28 flex flex-col items-center justify-center text-center space-y-4 max-w-md mx-auto px-4">
+              <div className="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shadow-xl ring-1 ring-amber-400/20">
+                <Lock className="w-8 h-8" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-white tracking-tight">Admin Panel Is Locked</h2>
+                <p className="text-xs text-amber-400/90 font-medium mt-1">Bina password lagaye admin panel open nahi ho sakta</p>
+              </div>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Admin Panel tak rasai ke liye security password darj karein. Owner & Admin access reserved for Mr.hcr:
+              </p>
+              <button
+                onClick={() => setIsAdminPasswordModalOpen(true)}
+                className="px-6 py-2.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold rounded-xl text-xs shadow-lg transition-all cursor-pointer flex items-center gap-2"
+              >
+                <Lock className="w-4 h-4" />
+                <span>Password Enter Karein (Unlock Admin)</span>
+              </button>
+            </div>
+          )
         )}
       </main>
 

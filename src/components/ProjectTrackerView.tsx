@@ -274,6 +274,10 @@ export const ProjectTrackerView: React.FC<ProjectTrackerViewProps> = ({
                           src={del.previewImage}
                           alt={del.title}
                           referrerPolicy="no-referrer"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src =
+                              'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80';
+                          }}
                           className="w-full h-full object-cover"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-3">
@@ -381,6 +385,9 @@ export const ProjectTrackerView: React.FC<ProjectTrackerViewProps> = ({
                         src={u.avatar}
                         alt={u.name}
                         referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=f59e0b&color=090d16&bold=true`;
+                        }}
                         className="w-8 h-8 rounded-full object-cover"
                       />
                       <div className="min-w-0">

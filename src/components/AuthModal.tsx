@@ -89,10 +89,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       email: regEmail.trim(),
       role: regRole,
       title: regRole === 'client' ? 'Client Representative' : `${regRole.toUpperCase()} Specialist`,
-      avatar:
-        regRole === 'client'
-          ? 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&h=200&q=80'
-          : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&h=200&q=80',
+      avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(regName.trim())}&background=f59e0b&color=090d16&bold=true`,
       isOnline: true,
       activeStatusText: 'Active on Prime Plus Portal',
       phone: regPhone.trim() || '03023608248',
@@ -231,6 +228,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       <img
                         src={u.avatar}
                         alt={u.name}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=f59e0b&color=090d16&bold=true`;
+                        }}
                         className="w-6 h-6 rounded-full object-cover shrink-0 ring-1 ring-amber-400/30"
                       />
                       <div className="min-w-0">
