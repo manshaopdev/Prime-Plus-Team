@@ -1,0 +1,6 @@
+{
+  "name": "Prime Plus Team - Agency Workspace & Client Portal",
+  "description": "Collaborative agency dashboard, task management, real-time collaboration, project tracking, and streamlined client portal with integrated Web Dev, Graphic Design, and Digital Marketing services.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
